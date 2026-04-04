@@ -1,6 +1,6 @@
 ---
 company: "SiTime Corporation"
-role: "Validation Engineer"
+role: "Hardware Infrastructure Engineer"
 dateStart: "10/01/2025"
 dateEnd: "Present"
 ---
