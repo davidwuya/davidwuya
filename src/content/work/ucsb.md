@@ -5,4 +5,4 @@ dateStart: "06/30/2019"
 dateEnd: "09/30/2025"
 ---
 
-Lorem ipsum dolor sit amet consectetur adipiscing elit. Quisque faucibus ex sapien vitae pellentesque sem placerat. In id cursus mi pretium tellus duis convallis. Tempus leo eu aenean sed diam urna tempor. Pulvinar vivamus fringilla lacus nec metus bibendum egestas. Iaculis massa nisl malesuada lacinia integer nunc posuere. Ut hendrerit semper vel class aptent taciti sociosqu. Ad litora torquent per conubia nostra inceptos himenaeos.
+I designed and built high-power electronics systems from the ground up, spanning schematic capture, PCB layout, fabrication, and hands-on assembly and testing. A highlight was leading the electronics development for a NASA Centennial Challenge project, which took First Prize nationwide and a $1 million award.
