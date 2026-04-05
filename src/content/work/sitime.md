@@ -1,5 +1,6 @@
 ---
 company: "SiTime Corporation"
+companyURL: "https://www.sitime.com/"
 role: "Hardware Infrastructure Engineer"
 dateStart: "10/01/2025"
 dateEnd: "Present"

@@ -56,7 +56,13 @@ const work = await Promise.all(
                 {dateRange(entry.data.dateStart, entry.data.dateEnd)}
               </div>
               <div class="font-semibold text-black dark:text-white">
-                {entry.data.company}
+                {entry.data.companyURL ? (
+                  <a href={entry.data.companyURL} target="_blank" rel="noopener noreferrer" class="underline underline-offset-2 decoration-black/15 dark:decoration-white/30 hover:decoration-black/50 dark:hover:decoration-white/50 transition-colors">
+                    {entry.data.company}
+                  </a>
+                ) : (
+                  entry.data.company
+                )}
               </div>
               <div class="text-sm opacity-75">
                 {entry.data.role}

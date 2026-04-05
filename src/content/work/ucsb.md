@@ -1,5 +1,6 @@
 ---
 company: "University of California Santa Barbara"
+companyURL: "https://www.ucsb.edu/"
 role: "Undergraduate Researcher & Junior Specialist"
 dateStart: "06/30/2019"
 dateEnd: "09/30/2025"
