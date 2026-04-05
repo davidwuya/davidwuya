@@ -120,13 +120,8 @@ const work = await Promise.all(
     </div>
   </Container>
 
-  <script is:inline src="https://js.hcaptcha.com/1/api.js?onload=onHcaptchaLoad&render=explicit" async defer></script>
   <script is:inline>
-    var hcaptchaWidgetId = null;
-
-    function onHcaptchaLoad() {}
-
-    async function onCaptchaVerify(token) {
+    window.onCaptchaVerify = async function(token) {
       var container = document.getElementById("email-container");
       container.innerHTML = '<span class="opacity-50">Verifying...</span>';
 
@@ -149,15 +144,21 @@ const work = await Promise.all(
       } catch (e) {
         container.innerHTML = '<span class="text-red-500">Something went wrong. Please try again.</span>';
       }
-    }
+    };
+
+    window.onHcaptchaLoad = function() {};
 
     function attachRevealHandler() {
-      hcaptchaWidgetId = null;
+      window._hcaptchaWidgetId = null;
       var btn = document.getElementById("reveal-email-btn");
       if (btn) {
         btn.addEventListener("click", function() {
-          if (hcaptchaWidgetId === null) {
-            hcaptchaWidgetId = hcaptcha.render("hcaptcha-widget", {
+          if (typeof hcaptcha === "undefined") {
+            alert("hCaptcha is still loading. Please try again in a moment.");
+            return;
+          }
+          if (window._hcaptchaWidgetId === null) {
+            window._hcaptchaWidgetId = hcaptcha.render("hcaptcha-widget", {
               sitekey: "8adad5ee-dab2-4ec0-a9a6-be7804daabf0",
               callback: "onCaptchaVerify",
               theme: document.documentElement.classList.contains("dark") ? "dark" : "light",
@@ -170,4 +171,5 @@ const work = await Promise.all(
     document.addEventListener("DOMContentLoaded", attachRevealHandler);
     document.addEventListener("astro:after-swap", attachRevealHandler);
   </script>
+  <script is:inline src="https://js.hcaptcha.com/1/api.js?onload=onHcaptchaLoad&render=explicit" async defer></script>
 </PageLayout>
