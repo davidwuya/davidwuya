@@ -106,13 +106,68 @@ const work = await Promise.all(
               {"/"}
             </li>
           ))}
-          <li class="line-clamp-1">
-            <Link href={`mailto:${SITE.EMAIL}`} aria-label={`Email ${SITE.NAME}`}>
-              {SITE.EMAIL}
-            </Link>
+          <li class="line-clamp-1" id="email-container">
+            <button
+              id="reveal-email-btn"
+              class="inline-block underline underline-offset-2 decoration-black/15 dark:decoration-white/30 hover:decoration-black/25 hover:dark:decoration-white/50 text-current hover:text-black hover:dark:text-white transition-colors duration-300 ease-in-out cursor-pointer"
+            >
+              reveal email
+            </button>
+            <div id="hcaptcha-widget" class="mt-2"></div>
           </li>
         </ul>
       </section>
     </div>
   </Container>
+
+  <script is:inline src="https://js.hcaptcha.com/1/api.js?onload=onHcaptchaLoad&render=explicit" async defer></script>
+  <script is:inline>
+    var hcaptchaWidgetId = null;
+
+    function onHcaptchaLoad() {}
+
+    async function onCaptchaVerify(token) {
+      var container = document.getElementById("email-container");
+      container.innerHTML = '<span class="opacity-50">Verifying...</span>';
+
+      try {
+        var res = await fetch("/api/verify-captcha", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ token: token }),
+        });
+        var data = await res.json();
+
+        if (data.email) {
+          container.innerHTML =
+            '<a href="mailto:' + data.email + '" ' +
+            'class="inline-block underline underline-offset-2 decoration-black/15 dark:decoration-white/30 hover:decoration-black/25 hover:dark:decoration-white/50 text-current hover:text-black hover:dark:text-white transition-colors duration-300 ease-in-out">' +
+            data.email + '</a>';
+        } else {
+          container.innerHTML = '<span class="text-red-500">Verification failed. Please refresh and try again.</span>';
+        }
+      } catch (e) {
+        container.innerHTML = '<span class="text-red-500">Something went wrong. Please try again.</span>';
+      }
+    }
+
+    function attachRevealHandler() {
+      hcaptchaWidgetId = null;
+      var btn = document.getElementById("reveal-email-btn");
+      if (btn) {
+        btn.addEventListener("click", function() {
+          if (hcaptchaWidgetId === null) {
+            hcaptchaWidgetId = hcaptcha.render("hcaptcha-widget", {
+              sitekey: "8adad5ee-dab2-4ec0-a9a6-be7804daabf0",
+              callback: "onCaptchaVerify",
+              theme: document.documentElement.classList.contains("dark") ? "dark" : "light",
+            });
+          }
+        });
+      }
+    }
+
+    document.addEventListener("DOMContentLoaded", attachRevealHandler);
+    document.addEventListener("astro:after-swap", attachRevealHandler);
+  </script>
 </PageLayout>
